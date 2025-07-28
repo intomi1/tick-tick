@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tick-Tock Clock</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: #111;
+      color: #0f0;
+    }
+    .clock {
+      font-size: 4rem;
+    }
+    .status {
+      font-size: 1rem;
+      margin-top: 20px;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <div class="clock" id="clock">00:00</div>
+  <div class="status">Clock is ticking...</div>
+  <button id="mute-toggle" style="margin-top: 10px; padding: 5px 10px;">Mute</button>
+
+  <audio id="tick" src="tick.mp3" preload="auto"></audio>
+  <audio id="tock" src="tock.mp3" preload="auto"></audio>
+  <audio id="minute" src="minute.mp3" preload="auto"></audio>
+
+  <script type="module">
+    import './clock.js';
+
+    const button = document.getElementById('mute-toggle');
+    let isMuted = false;
+
+    button.addEventListener('click', () => {
+      isMuted = !isMuted;
+      document.querySelectorAll('audio').forEach(audio => {
+        audio.muted = isMuted;
+      });
+      button.textContent = isMuted ? 'Unmute' : 'Mute';
+    });
+  </script>
+</body>
+</html>
