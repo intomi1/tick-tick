@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tick-Tock Clock</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tick‑Tock Clock</title>
   <style>
     body {
       font-family: sans-serif;
@@ -28,25 +28,27 @@
 </head>
 <body>
   <div class="clock" id="clock">00:00</div>
-  <div class="status">Clock is ticking...</div>
-  <button id="mute-toggle" style="margin-top: 10px; padding: 5px 10px;">Mute</button>
+  <div class="status" id="status">Clock is silent…</div>
+  <button id="mute-toggle" style="margin-top: 10px; padding: 5px 10px;">Unmute</button>
 
   <audio id="tick" src="tick.mp3" preload="auto"></audio>
   <audio id="tock" src="tock.mp3" preload="auto"></audio>
   <audio id="minute" src="minute.mp3" preload="auto"></audio>
 
   <script type="module">
-    import './clock.js';
+    import { toggleMute, isMuted } from './clock.js';
 
     const button = document.getElementById('mute-toggle');
-    let isMuted = false;
+    const status = document.getElementById('status');
+
+    // Initialize the button and status based on the starting mute state
+    button.textContent = isMuted() ? 'Unmute' : 'Mute';
+    status.textContent = isMuted() ? 'Clock is silent…' : 'Clock is ticking…';
 
     button.addEventListener('click', () => {
-      isMuted = !isMuted;
-      document.querySelectorAll('audio').forEach(audio => {
-        audio.muted = isMuted;
-      });
-      button.textContent = isMuted ? 'Unmute' : 'Mute';
+      const nowMuted = toggleMute();
+      button.textContent = nowMuted ? 'Unmute' : 'Mute';
+      status.textContent = nowMuted ? 'Clock is silent…' : 'Clock is ticking…';
     });
   </script>
 </body>
